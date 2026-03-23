@@ -1,0 +1,16 @@
+{
+  "name": "GoVault",
+  "short_name": "GoVault",
+  "description": "Organize flights, hotels, expenses, and itineraries in one beautiful, offline-ready travel app.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#1A5F5F",
+  "icons": [
+    {
+      "src": "/favicon.ico",
+      "sizes": "64x64",
+      "type": "image/x-icon"
+    }
+  ]
+}

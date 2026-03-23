@@ -1,0 +1,188 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/* GoVault Custom Colors */
+:root {
+  /* Brand Colors */
+  --gold: #D4A853;
+  --gold-light: #E8C97A;
+  --teal: #1A5F5F;
+  --teal-dark: #0F3D3D;
+  --cream: #FDF8F0;
+  --sand: #F5EBD9;
+  --coral: #E07B5C;
+  --navy: #1C2B3A;
+
+  /* shadcn theme overrides */
+  --radius: 0.75rem;
+  --background: #FDF8F0;
+  --foreground: #1C2B3A;
+  --card: #FFFFFF;
+  --card-foreground: #1C2B3A;
+  --popover: #FFFFFF;
+  --popover-foreground: #1C2B3A;
+  --primary: #1A5F5F;
+  --primary-foreground: #FFFFFF;
+  --secondary: #F5EBD9;
+  --secondary-foreground: #1C2B3A;
+  --muted: #F5EBD9;
+  --muted-foreground: #6B7280;
+  --accent: #D4A853;
+  --accent-foreground: #1C2B3A;
+  --destructive: #DC2626;
+  --border: #E5E7EB;
+  --input: #E5E7EB;
+  --ring: #1A5F5F;
+
+  /* Chart colors */
+  --chart-1: #1A5F5F;
+  --chart-2: #D4A853;
+  --chart-3: #E07B5C;
+  --chart-4: #059669;
+  --chart-5: #6366F1;
+
+  /* Sidebar */
+  --sidebar: #FFFFFF;
+  --sidebar-foreground: #1C2B3A;
+  --sidebar-primary: #1A5F5F;
+  --sidebar-primary-foreground: #FFFFFF;
+  --sidebar-accent: #F5EBD9;
+  --sidebar-accent-foreground: #1C2B3A;
+  --sidebar-border: #E5E7EB;
+  --sidebar-ring: #1A5F5F;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-dm-sans);
+  --font-serif: var(--font-playfair);
+  --color-sidebar-ring: var(--sidebar-ring);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar: var(--sidebar);
+  --color-chart-5: var(--chart-5);
+  --color-chart-4: var(--chart-4);
+  --color-chart-3: var(--chart-3);
+  --color-chart-2: var(--chart-2);
+  --color-chart-1: var(--chart-1);
+  --color-ring: var(--ring);
+  --color-input: var(--input);
+  --color-border: var(--border);
+  --color-destructive: var(--destructive);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent: var(--accent);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-muted: var(--muted);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-secondary: var(--secondary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-primary: var(--primary);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-popover: var(--popover);
+  --color-card-foreground: var(--card-foreground);
+  --color-card: var(--card);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-teal: var(--teal);
+  --color-teal-dark: var(--teal-dark);
+  --color-cream: var(--cream);
+  --color-sand: var(--sand);
+  --color-coral: var(--coral);
+  --color-navy: var(--navy);
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+  --radius-2xl: calc(var(--radius) + 8px);
+  --radius-3xl: calc(var(--radius) + 12px);
+  --radius-4xl: calc(var(--radius) + 16px);
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  body {
+    @apply bg-background text-foreground antialiased;
+  }
+  h1, h2, h3, h4 {
+    font-family: var(--font-playfair), serif;
+  }
+}
+
+/* Custom utility classes */
+@layer utilities {
+  .text-balance {
+    text-wrap: balance;
+  }
+  .gradient-teal {
+    background: linear-gradient(135deg, var(--teal-dark) 0%, var(--teal) 50%, #2A7A6A 100%);
+  }
+  .gradient-gold {
+    background: linear-gradient(135deg, var(--gold) 0%, var(--gold-light) 100%);
+  }
+  .gradient-coral {
+    background: linear-gradient(135deg, var(--coral) 0%, #c4644a 100%);
+  }
+  .gradient-flights {
+    background: linear-gradient(135deg, #1e3a5f, #2d5a87);
+  }
+  .gradient-emergency {
+    background: linear-gradient(135deg, #991b1b, #b91c1c);
+  }
+}
+
+/* Animations for trip soul */
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes fade-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-fade-in-up {
+  animation: fade-in-up 1s ease-out;
+}
+
+@keyframes spin-slow {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.animate-spin-slow {
+  animation: spin-slow 20s linear infinite;
+}
+
+/* Thai font support */
+.font-thai {
+  font-family: 'Noto Sans Thai', var(--font-dm-sans), sans-serif;
+}
+
+/* Hide scrollbar utility */
+.hide-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;
+}

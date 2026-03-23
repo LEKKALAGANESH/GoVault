@@ -14,6 +14,7 @@
   <a href="#quick-start">Quick Start</a>&nbsp;&nbsp;|&nbsp;&nbsp;
   <a href="#tech-stack">Tech Stack</a>&nbsp;&nbsp;|&nbsp;&nbsp;
   <a href="#architecture">Architecture</a>&nbsp;&nbsp;|&nbsp;&nbsp;
+  <a href="#testing">Testing</a>&nbsp;&nbsp;|&nbsp;&nbsp;
   <a href="#documentation">Docs</a>&nbsp;&nbsp;|&nbsp;&nbsp;
   <a href="#license">License</a>
 </p>
@@ -24,6 +25,8 @@
   <img src="https://img.shields.io/badge/TypeScript-5-3178C6?logo=typescript&logoColor=white" alt="TypeScript" />
   <img src="https://img.shields.io/badge/Supabase-PostgreSQL-3FCF8E?logo=supabase&logoColor=white" alt="Supabase" />
   <img src="https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white" alt="Tailwind" />
+  <img src="https://img.shields.io/badge/Tested_with-Playwright-2EAD33?logo=playwright&logoColor=white" alt="Playwright" />
+  <a href="https://github.com/LEKKALAGANESH/GoVault/actions/workflows/playwright.yml"><img src="https://github.com/LEKKALAGANESH/GoVault/actions/workflows/playwright.yml/badge.svg" alt="E2E Tests" /></a>
   <img src="https://img.shields.io/badge/License-MIT-green" alt="License" />
 </p>
 
@@ -69,8 +72,8 @@
 
 ```bash
 # 1. Clone the repository
-git clone https://github.com/your-username/govault.git
-cd govault
+git clone https://github.com/LEKKALAGANESH/GoVault.git
+cd GoVault
 
 # 2. Install dependencies
 npm install
@@ -104,6 +107,7 @@ Open **[http://localhost:3000](http://localhost:3000)** in your browser.
 | `npm run build` | Create production build |
 | `npm start` | Run production server |
 | `npm run lint` | Run ESLint |
+| `npx playwright test` | Run E2E tests (see [Testing](#testing)) |
 
 ---
 
@@ -199,6 +203,67 @@ GoVault is built to handle Supabase downtime gracefully:
 - **Layout try/catch** prevents app crashes when auth checks fail
 
 A comprehensive **6-phase offline resilience plan** is documented in the `Report/` folder, covering health detection, offline banners, local caching, write queues, sync reconciliation, and login handling.
+
+---
+
+## Testing
+
+GoVault uses [Playwright](https://playwright.dev) for end-to-end testing across the full application.
+
+### Test Suite
+
+| Test File | Tests | Area | Auth Required |
+|-----------|-------|------|---------------|
+| `landing.spec.ts` | 4 | Hero, features, family section, navigation | No |
+| `login.spec.ts` | 5 | Login form, OAuth, magic link, validation | No |
+| `agent.authenticated.spec.ts` | 7 | AI chat panel, message sending, responses | Yes |
+| `agent-improvements.authenticated.spec.ts` | 14 | Packing lists, phrases, document upload, itinerary editing | Yes |
+| `ai-features.authenticated.spec.ts` | 3 | AI generation, chat suggestions, API | Yes |
+| `view2.authenticated.spec.ts` | 2 | Trip detail view, visual sections | Yes |
+
+**Total: 35 tests** covering landing pages, authentication, AI agent interactions, and trip management.
+
+### Running Tests
+
+```bash
+# Run all unauthenticated tests (no login needed)
+npx playwright test --project=chromium
+
+# Capture auth state for authenticated tests (opens browser for manual login)
+npx playwright test auth.setup --headed
+
+# Run authenticated tests (requires auth setup first)
+npx playwright test --project=chromium-authenticated
+
+# Run all tests
+npx playwright test
+
+# View test report
+npx playwright show-report
+```
+
+### Test Architecture
+
+```
+tests/
+├── auth.setup.ts                              # Auth fixture (manual OAuth login capture)
+├── landing.spec.ts                            # Public: landing page tests
+├── login.spec.ts                              # Public: login page tests
+├── agent.authenticated.spec.ts                # Protected: AI agent tests
+├── agent-improvements.authenticated.spec.ts   # Protected: AI agent advanced tests
+├── ai-features.authenticated.spec.ts          # Protected: AI feature tests
+└── view2.authenticated.spec.ts                # Protected: trip detail view tests
+```
+
+Tests are split into two Playwright projects:
+- **`chromium`** -- Unauthenticated tests (landing, login) that run without any auth state
+- **`chromium-authenticated`** -- Protected route tests that use saved auth state from `auth.setup.ts`
+
+### CI/CD
+
+Tests run automatically on every push and pull request via GitHub Actions. The workflow installs dependencies, builds the app, and runs the Playwright test suite.
+
+[![E2E Tests](https://github.com/LEKKALAGANESH/GoVault/actions/workflows/playwright.yml/badge.svg)](https://github.com/LEKKALAGANESH/GoVault/actions/workflows/playwright.yml)
 
 ---
 
